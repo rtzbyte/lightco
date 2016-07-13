@@ -1,0 +1,18 @@
+{
+  "name": "lightco",
+  "version": "0.1.0",
+  "description": "lightco use generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --harmony_destructuring"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bulebyte/lightco.git"
+  },
+  "keywords": [
+    "lightco"
+  ],
+  "author": "wd",
+  "license": "MIT"
+}
