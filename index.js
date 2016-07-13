@@ -2,7 +2,7 @@
 
 var lightco = {}
 
-lightco.wrap: function(gen) {
+lightco.wrap = function(gen) {
     var idt = gen()
     var cbchain = function() {
         var step = idt.next(arguments)
@@ -11,7 +11,7 @@ lightco.wrap: function(gen) {
     return cbchain
 }
 
-lightco.run: function(gen) {
+lightco.run = function(gen) {
     lightco.wrap(gen)()
 }
 
