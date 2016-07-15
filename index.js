@@ -1,12 +1,11 @@
-'use strict';
+'use strict'
 
 var lightco = {}
 
 lightco.wrap = function(gen) {
-    var idt = gen()
-    var cbchain = function() {
-        var step = idt.next(arguments)
-        if (!step.done) step.value(cbchain)
+    var idt = gen(cbchain)
+    function cbchain() {
+        idt.next(arguments)
     }
     return cbchain
 }
@@ -14,9 +13,5 @@ lightco.wrap = function(gen) {
 lightco.run = function(gen) {
     lightco.wrap(gen)()
 }
-
-/**
- * Expose `lightco`.
- */
 
 module.exports = lightco
