@@ -36,7 +36,7 @@ describe("lightco-2", function() {
 			var [error, response, body] = yield request('http://www.baidu.com', $)
 			if (error)
 				throw error
-			console.log(error, response.statusCode)
+			console.log(response.statusCode)
 			done()
 		})
 	});
