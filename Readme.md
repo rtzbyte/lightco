@@ -1,7 +1,7 @@
 # lightco
 
 
-#### this package is my for learning npm and nodejs
+#### this package is my for learning npm and nodejs, pull request is welcome
 
 
 useage:
