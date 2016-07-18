@@ -2,43 +2,49 @@
 
 var fs = require('fs')
 var request = require('request')
+var should = require("should");
 var lightco = require('../')
 
 
-describe("lightco-1", function() {
-	it("wrap", function(done) {
-		var co = lightco.wrap(function* ($) {
-			console.log('\t this is lightco-1')
-			var [error, data] = yield fs.readFile('index.js', 'utf8', $)
-			if (error)
-				throw error
-			done()
-		})
-		co()
-	})
-})
-
-describe("lightco-2", function() {
-	it("run", function(done) {
+describe("lightco", function() {
+	it("callback", function(done) {
 		lightco.run(function* ($) {
-			console.log('\t this is lightco-2')
-
 			var [error, data] = yield fs.readFile('index.js', 'utf8', $)
-			if (error)
-				throw error
-			console.log('\t step 1 -> done')
+			should.equal(error, null)
+			data.should.be.String()
 
 			var [error, response, body] = yield request('http://www.baidu.com', $)
-			if (error)
-				throw error
-			console.log('\t step 2 -> done')
+			should.equal(error, null)
+			data.should.be.String()
 
 			yield request('http://www.baidu.com', function(error, response, body){
-				if (error)
-					throw error
-				console.log('\t step 3 -> done')
+				should.equal(error, null)
+				data.should.be.String()
 				done()
 			})
+		})
+	})
+
+	var query = function (exist) {
+	    return new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				if (!exist)
+					return reject(new Error('obj not exist!'))
+
+				resolve('see hellow!')
+			}, 10);
+	    })
+	};
+
+	it("promise", function(done) {
+		lightco.run(function* ($) {
+			var [error, data] = yield query(true)
+			should.equal(error, null)
+			data.should.be.String()
+
+			var [error, data] = yield query()
+			error.should.be.Error()
+			done()
 		})
 	})
 })

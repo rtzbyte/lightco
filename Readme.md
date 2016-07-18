@@ -21,9 +21,18 @@ lightco.run(function* ($) {
     var [error, response, body] = yield request('http://www.baidu.com', $)
     if (error)
         throw error
-    console.log(error, response.statusCode)
+    console.log(response.statusCode)
+
+    var [error, data] = yield query(true)
+    if (error)
+        throw error
+    console.log(data)
 })
 ```
+
+#### 0.1.6 support promise
+    when onRejected was invoked, the first argument error must be a Error
+    when onFulfilled was invoked, the first argument must be a null, the second argument must be a data
 
 #### Unit testing test/test.js
 
