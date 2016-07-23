@@ -31,8 +31,17 @@ lightco.run(function* ($) {
 ```
 
 #### 0.1.6 support promise
-    when onRejected was invoked, the first argument error must be a Error
-    when onFulfilled was invoked, the first argument must be a null, the second argument must be a data
+when onRejected was invoked, the first argument error must be a Error
+
+when onFulfilled was invoked, the first argument must be a null, the second argument must be a data
+
+#### 0.1.7 fix a bug (Generator is already running)
+```js
+var immediatelyInvoke = function(cb) {
+	cb('hi!')
+}
+// this will be generate a error (Generator is already running)
+```
 
 #### Unit testing test/test.js
 

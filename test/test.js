@@ -2,13 +2,19 @@
 
 var fs = require('fs')
 var request = require('request')
-var should = require("should");
+var should = require("should")
 var lightco = require('../')
 
+var immediatelyInvoke = function(cb) {
+	cb('hi!')
+}
 
 describe("lightco", function() {
 	it("callback", function(done) {
 		lightco.run(function* ($) {
+			var [data] = yield immediatelyInvoke($)
+			data.should.be.String()
+
 			var [error, data] = yield fs.readFile('index.js', 'utf8', $)
 			should.equal(error, null)
 			data.should.be.String()
@@ -32,9 +38,9 @@ describe("lightco", function() {
 					return reject(new Error('obj not exist!'))
 
 				resolve('see hellow!')
-			}, 10);
+			}, 10)
 	    })
-	};
+	}
 
 	it("promise", function(done) {
 		lightco.run(function* ($) {

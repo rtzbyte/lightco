@@ -5,23 +5,15 @@ var lightco = {}
 lightco.wrap = function(gen) {
     var idt = gen(resume)
 
-    function onFulfilled(res) {
-        //avoid can not throw error in Promise callback
-        process.nextTick(function(){
-            resume(null, res)
-        })
-    }
-
-    function onRejected(err) {
-        process.nextTick(function(){
-            resume(err)
-        })
-    }
-
     function resume() {
-        var obj = idt.next(arguments).value
-        if (obj && isPromise(obj))
-            obj.then(onFulfilled, onRejected)
+        // avoid can not throw error in Promise callback
+        // avoid error of Generator is already running
+        var args = arguments
+        process.nextTick(function() {
+            var obj = idt.next(args).value
+            if (obj && isPromise(obj))
+                obj.then(res=>resume(null, res), err=>resume(err))
+        })
     }
     return resume
 }
@@ -33,7 +25,7 @@ lightco.run = function(gen) {
 
 //this function study from co
 function isPromise(obj) {
-  return 'function' == typeof obj.then;
+    return 'function' == typeof obj.then;
 }
 
 
